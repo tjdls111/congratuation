@@ -16,7 +16,6 @@ export default function Celebration() {
   const [randomIdea, setRandomIdea] = useState<CelebrationItem | null>(null)
 
   useEffect(() => {
-    // Fetch today's celebration data
     fetch('/api/celebration')
       .then((res) => res.json())
       .then((fetchedData) => {
@@ -44,9 +43,7 @@ export default function Celebration() {
 
   return (
     <div className="min-h-screen bg-gray-100 flex flex-col items-center py-10">
-      <h1 className="text-3xl font-bold text-blue-600 mb-6">
-        오늘을 축하해
-      </h1>
+      <h1 className="text-3xl font-bold text-blue-600 mb-6">오늘을 축하해</h1>
       {todayData.length > 0 ? (
         <ul className="w-full max-w-2xl bg-white shadow-md rounded-lg p-6 space-y-4">
           {todayData.map((item, i) => (
@@ -67,7 +64,7 @@ export default function Celebration() {
       ) : randomIdea ? (
         <div className="w-full max-w-2xl bg-white shadow-md rounded-lg p-6">
           <h2 className="text-2xl font-semibold text-purple-600 mb-4">
-            오늘을 축하해 
+            오늘을 축하해
           </h2>
           <strong className="text-lg text-gray-800">
             {randomIdea.date} - {randomIdea.title}
