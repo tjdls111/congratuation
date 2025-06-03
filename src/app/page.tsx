@@ -1,9 +1,8 @@
 'use client'
 import { useEffect, useState } from 'react'
-import TodayCelebrationList from '../components/TodayCelebrationList'
-import RandomCelebration from '../components/RandomCelebration'
+import Celebration from '../components/Celebration'
 
-export interface CelebrationItem {
+interface CelebrationItem {
   title: string
   description: string
   suggestions: string[]
@@ -13,7 +12,7 @@ export interface CelebrationItem {
   date?: string
 }
 
-export default function Celebration() {
+export default function Home() {
   const [todayEvent, setTodayEvent] = useState<CelebrationItem[]>([])
   const [randomEvent, setRandomEvent] = useState<CelebrationItem | null>(null)
 
@@ -59,9 +58,13 @@ export default function Celebration() {
       </h1>
       <div className="flex flex-col items-center justify-center w-full max-w-3xl p-4 sm:p-8 bg-white shadow-lg rounded-xl mx-2 sm:mx-4">
         {todayEvent.length > 0 ? (
-          <TodayCelebrationList event={todayEvent} />
+          <div className="space-y-4">
+            {todayEvent.map((event: CelebrationItem, index: number) => (
+              <Celebration key={index} event={event} />
+            ))}
+          </div>
         ) : randomEvent ? (
-          <RandomCelebration event={randomEvent} />
+          <Celebration event={randomEvent} />
         ) : (
           <p className="text-lg sm:text-xl text-gray-500 mt-10 text-center">
             축하할 아이디어를 떠올리고 있어요~
