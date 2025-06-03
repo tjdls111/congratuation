@@ -6,6 +6,8 @@ import Text from '@/components/ui/Text'
 import Icon from '@/components/ui/Icon'
 import Header from '@/components/ui/Header'
 import Subheader from '@/components/ui/Subheader'
+import { motion } from 'framer-motion'
+import Loading from '@/components/ui/Loading'
 
 interface CelebrationItem {
   title: string
@@ -20,6 +22,7 @@ interface CelebrationItem {
 export default function Home() {
   const [todayEvent, setTodayEvent] = useState<CelebrationItem[]>([])
   const [randomEvent, setRandomEvent] = useState<CelebrationItem | null>(null)
+  const [isLoading, setIsLoading] = useState(true)
 
   const fetchCelebrationData = async () => {
     try {
@@ -49,10 +52,13 @@ export default function Home() {
       }
     } catch (error) {
       console.error("Error fetching today's celebration data:", error)
+    } finally {
+      setIsLoading(false)
     }
   }
 
   useEffect(() => {
+    setIsLoading(true)
     fetchCelebrationData()
   }, [])
 
@@ -67,7 +73,9 @@ export default function Home() {
           </Text>
         </div>
         <div className="w-full max-w-3xl mx-auto">
-          {todayEvent.length > 0 ? (
+          {isLoading ? (
+            <Loading />
+          ) : todayEvent.length > 0 ? (
             <div className="space-y-6">
               {todayEvent.map((event: CelebrationItem, index: number) => (
                 <Celebration key={index} event={event} />
@@ -75,7 +83,7 @@ export default function Home() {
             </div>
           ) : (
             <Celebration event={randomEvent} />
-          ) }
+          )}
         </div>
       </div>
     </div>
