@@ -20,8 +20,10 @@ export default function Text({
   }
 
   const colorClasses = {
-    default: 'text-gray-700',
-    muted: 'text-gray-500',
+    default: 'text-[#2E2E2E]',
+    muted: 'text-[#7D7D7D]',
+    pink: 'text-[#D8A7B1]',
+    green: 'text-[#A0B6A4]',
   }
 
   return (

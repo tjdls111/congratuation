@@ -14,7 +14,7 @@ export default function Header({ children, size = 'md', className = '' }: Header
   }
 
   return (
-    <h1 className={`font-bold text-gray-900 ${sizeClasses[size]} ${className}`}>
+    <h1 className={`font-bold text-[#2E2E2E] ${sizeClasses[size]} ${className}`}>
       {children}
     </h1>
   )

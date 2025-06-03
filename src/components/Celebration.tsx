@@ -1,3 +1,11 @@
+import Card from '@/components/ui/Card'
+import Text from '@/components/ui/Text'
+import Emoji from '@/components/ui/Emoji'
+import Subheader from '@/components/ui/Subheader'
+import Icon from './ui/Icon'
+import type { ReactNode } from 'react'
+import { motion } from 'framer-motion'
+
 interface CelebrationItem {
   title: string
   description: string
@@ -13,10 +21,12 @@ interface CelebrationProps {
   showDate?: boolean
 }
 
-import Card from '@/components/ui/Card'
-import Text from '@/components/ui/Text'
-import Icon from '@/components/ui/Icon'
-import Subheader from '@/components/ui/Subheader'
+
+function formatDate(date?: string): string {
+  if (!date) return ''
+  const [month, day] = date.split('-').map(num => parseInt(num))
+  return `${month}월 ${day}일`
+}
 
 export default function Celebration({
   event,
@@ -46,7 +56,7 @@ export default function Celebration({
       <div className="flex items-center space-x-4 mb-6">
         {showDate && (
           <Text size="lg" className="font-semibold text-gray-600">
-            {event.date}
+            {formatDate(event.date)}
           </Text>
         )}
         <div>
@@ -54,16 +64,29 @@ export default function Celebration({
           <Text>{event.description}</Text>
         </div>
       </div>
-      <ul className="mt-6 space-y-4">
+      <motion.div
+        className="mt-6 space-y-2"
+        initial={{ opacity: 0, y: 20 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        exit={{ opacity: 0, y: -20 }}
+        viewport={{ once: true, amount: 0.2 }}
+        transition={{ duration: 0.5 }}
+      >
         {event.suggestions.map((suggestion: string, i: number) => (
-          <li key={i} className="flex items-center space-x-3">
-            <Icon size={16}>
-              <span>•</span>
-            </Icon>
-            <Text>{suggestion}</Text>
-          </li>
+          <motion.div
+            key={i}
+            className="flex items-center space-x-3"
+            initial={{ opacity: 0, y: 10 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -10 }}
+            viewport={{ once: true, amount: 0.2 }}
+            transition={{ delay: i * 0.1, duration: 0.3 }}
+          >
+            <Emoji className="text-[#D8A7B1]" />
+            <Text size="lg" color="default">{suggestion}</Text>
+          </motion.div>
         ))}
-      </ul>
+      </motion.div>
     </Card>
   )
 }
