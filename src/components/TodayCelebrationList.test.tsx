@@ -8,6 +8,9 @@ describe('TodayCelebrationList', () => {
       title: 'Birthday Celebration',
       description: "Celebrate John's birthday with a party.",
       suggestions: ['Bring a gift', 'Wear party attire', 'RSVP by Friday'],
+      type: 'Personal',
+      region: 'Local',
+      source: '',
     },
     {
       date: '2023-10-02',
@@ -18,6 +21,9 @@ describe('TodayCelebrationList', () => {
         'Prepare a speech',
         'Network with colleagues',
       ],
+      type: 'Corporate',
+      region: 'Global',
+      source: '',
     },
   ]
 

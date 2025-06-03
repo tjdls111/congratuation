@@ -5,47 +5,51 @@ import RandomCelebration from '../components/RandomCelebration'
 
 export interface CelebrationItem {
   title: string
-  description: string[]
+  description: string
   suggestions: string[]
   type: string
   region: string
-  source: string
-  date: string
+  source?: string
+  date?: string
 }
 
 export default function Celebration() {
   const [todayEvent, setTodayEvent] = useState<CelebrationItem[]>([])
   const [randomEvent, setRandomEvent] = useState<CelebrationItem | null>(null)
 
-  useEffect(() => {
-    fetch('/api/celebration')
-      .then((res) => res.json())
-      .then((fetchedData) => {
-        const today = `${(new Date().getMonth() + 1)
-          .toString()
-          .padStart(2, '0')}-${new Date()
-          .getDate()
-          .toString()
-          .padStart(2, '0')}`
-        const filteredData = fetchedData.filter(
-          (item: CelebrationItem) => item.date === today
-        )
-        setTodayEvent(filteredData)
+  const fetchCelebrationData = async () => {
+    try {
+      const res = await fetch('/api/celebration')
+      if (!res.ok) {
+        throw new Error(`HTTP error! status: ${res.status}`)
+      }
+      const fetchedData = await res.json()
 
-        if (filteredData.length === 0) {
-          fetch('/api/random-celebration')
-            .then((res) => res.json())
-            .then((randomData) => {
-              setRandomEvent(randomData)
-            })
-            .catch((error) => {
-              console.error('Error fetching random celebration idea:', error)
-            })
+      const today = `${(new Date().getMonth() + 1)
+        .toString()
+        .padStart(2, '0')}-${new Date().getDate().toString().padStart(2, '0')}`
+      const filteredData = fetchedData.filter(
+        (item: CelebrationItem) => item.date === today
+      )
+      setTodayEvent(filteredData)
+
+      if (filteredData.length === 0) {
+        const randomRes = await fetch('/api/random-celebration')
+        if (!randomRes.ok) {
+          throw new Error(`HTTP error! status: ${randomRes.status}`)
         }
-      })
-      .catch((error) => {
-        console.error("Error fetching today's celebration data:", error)
-      })
+        const randomData = await randomRes.json()
+        const randomItem =
+          randomData[Math.floor(Math.random() * randomData.length)]
+        setRandomEvent(randomItem)
+      }
+    } catch (error) {
+      console.error("Error fetching today's celebration data:", error)
+    }
+  }
+
+  useEffect(() => {
+    fetchCelebrationData()
   }, [])
 
   return (

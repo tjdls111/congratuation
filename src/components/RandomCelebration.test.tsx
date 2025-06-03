@@ -7,6 +7,9 @@ describe('RandomCelebration', () => {
     title: 'Birthday Party',
     description: 'A fun birthday celebration with friends and family.',
     suggestions: ['Bring a gift', 'Wear party attire', 'RSVP by Friday'],
+    type: 'Birthday',
+    region: 'Local',
+    source: '',
   }
 
   it('renders the event date and title', () => {

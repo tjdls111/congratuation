@@ -5,6 +5,15 @@ export default function RandomCelebration({
 }: {
   event: CelebrationItem
 }) {
+  if (!event) {
+    return (
+      <p className="text-lg sm:text-xl text-gray-500 mt-10 text-center">
+        오늘을 축하해요. 
+        감사해요.
+        
+      </p>
+    )
+  }
   return (
     <div className="w-full bg-white shadow-lg rounded-xl p-6 sm:p-8">
       <strong className="text-xl sm:text-2xl text-purple-700 block mb-2">
